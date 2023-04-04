@@ -1,6 +1,12 @@
 # state-mutex
 
+## Install
+
 **This is only a test publish, do not use yet.**
+
+```bash
+npm i @keldan-systems/state-mutex
+```
 
 The State Mutex has been tested with Create React App, however there are is still some work to do getting it ready to work with server rendered applications.
 
