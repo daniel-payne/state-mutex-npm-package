@@ -1,6 +1,6 @@
 {
   "name": "@keldan-systems/state-mutex",
-  "version": "0.0.0-development",
+  "version": "0.0.1-development",
   "description": "Simple State Management",
   "type": "module",
   "exports": {
