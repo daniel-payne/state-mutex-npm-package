@@ -59,7 +59,7 @@ const [person, setPerson] = useSharedState<Person>("person", defaultPerson)
 
 ### useQueryState (key: string, defaultValue: StorageValue)
 
-In addition to sharing the state across all components, this hook cooridnates the saving and updating of the value in the browser query string. It will proritixe the query string value over the progrmaticly assigned default value.
+In addition to sharing the state across all components, this hook coordinates the saving and updating of the value in the browser query string. It will prioritize the query string value over the programmatically assigned default value.
 
 ```typescript
 import { useQueryState } from "@keldan-systems/state-mutex"
@@ -71,7 +71,7 @@ const [active, setActive] = useQueryState<boolean>("active", true)
 
 ### useHashState (key: string, defaultValue: StorageValue)
 
-In addition to sharing the state across all components, this hook cooridnates the saving and updating of the value in the browser hash. It will proritixe the query string value over the progrmaticly assigned default value.
+In addition to sharing the state across all components, this hook coordinates the saving and updating of the value in the browser hash. It will prioritize the query string value over the programmatically assigned default value.
 
 ```typescript
 import { useHashState } from "@keldan-systems/state-mutex"
@@ -83,9 +83,9 @@ const [active, setActive] = useHashState<boolean>("active", true)
 
 ### useLocalState (key: string, defaultValue: StorageValue)
 
-In addition to sharing the state across all components, this hook cooridnates the saving and updating of the value in the local storage. It will proritixe the local storage value over the progrmaticly assigned default value.
+In addition to sharing the state across all components, this hook coordinates the saving and updating of the value in the local storage. It will prioritize the local storage value over the programmatically assigned default value.
 
-This hook is designed to be used in applications where the logic is spread across multipule browser tabs, and is a good control and command system that does away with the need for cooridnating webHooks.
+This hook is designed to be used in applications where the logic is spread across multiple browser tabs, and is a good control and command system that does away with the need for coordinating webHooks.
 
 ```typescript
 import { useLocalState } from "@keldan-systems/state-mutex"
