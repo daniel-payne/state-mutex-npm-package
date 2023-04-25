@@ -7,6 +7,8 @@ import stringToMap from "./stringToMap.js"
 import storageToString from "./storageToString.js"
 import mapToString from "./mapToString.js"
 import safeStringify from "./safeStringify.js"
+import hashToMap from "./hashToMap.js"
+import mapToHash from "./mapToHash.js"
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 export type BaseStorage = string | number | boolean
@@ -84,6 +86,21 @@ export function clearStore() {
   defaultLocals.forEach((defaultValue: StorageValue, key: string) => {
     updateValues(key, defaultValue)
   })
+
+  listeners
+    .filter((listner) => listner.key === undefined)
+    .forEach((listner) => {
+      const action = listner.reference.deref()
+
+      if (action) {
+        action({
+          values: Object.fromEntries(values),
+          defaultQueries: Object.fromEntries(defaultQueries),
+          defaultHashes: Object.fromEntries(defaultHashes),
+          defaultLocals: Object.fromEntries(defaultLocals),
+        } as StorageValue)
+      }
+    })
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -160,8 +177,6 @@ function updateValues(key: StoreKey, value: StorageValue) {
   let oldString: string | undefined
   let newString: string | undefined
 
-  // let newValue: StorageValue
-
   if (isObject(oldValue) || isArray(oldValue)) {
     oldString = safeStringify(oldValue)
   } else {
@@ -177,12 +192,6 @@ function updateValues(key: StoreKey, value: StorageValue) {
   const isDifferentValue = oldString !== newString
 
   if (isDifferentValue) {
-    // if (isObject(value) || isArray(value)) {
-    //   newValue = JSON.stringify(value)
-    // } else {
-    //   newValue = value
-    // }
-
     values.set(key, value)
 
     listeners
@@ -221,34 +230,38 @@ function updateValues(key: StoreKey, value: StorageValue) {
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 const loadQueries = (e: PopStateEvent) => {
-  if (e.state) {
-    if (e.state?.search) {
-      let search = e.state.search
+  let search = e?.state?.search
 
-      const hashIndex = e.state.search.indexOf("#")
+  if (!search && typeof document !== "undefined") {
+    const currentUrl = new URL(document.URL)
 
-      if (hashIndex > -1) {
-        search = e.state.search.substring(0, hashIndex)
-      }
+    search = currentUrl.search
+  }
 
-      const newParams = new URLSearchParams(search)
+  if (search) {
+    const hashIndex = search.indexOf("#")
 
-      newParams.forEach((data: string, key: string) => {
-        const value = stringToStorage(data)
-
-        updateValues(key, value)
-      })
-
-      defaultQueries.forEach((defaultValue: StorageValue, key: string) => {
-        if (newParams.has(key) === false) {
-          updateValues(key, defaultValue)
-        }
-      })
-    } else {
-      defaultQueries.forEach((defaultValue: StorageValue, key: string) => {
-        updateValues(key, defaultValue)
-      })
+    if (hashIndex > -1) {
+      search = search.substring(0, hashIndex)
     }
+
+    const newParams = new URLSearchParams(search)
+
+    newParams.forEach((data: string, key: string) => {
+      const value = stringToStorage(data)
+
+      updateValues(key, value)
+    })
+
+    defaultQueries.forEach((defaultValue: StorageValue, key: string) => {
+      if (newParams.has(key) === false) {
+        updateValues(key, defaultValue)
+      }
+    })
+  } else {
+    defaultQueries.forEach((defaultValue: StorageValue, key: string) => {
+      updateValues(key, defaultValue)
+    })
   }
 }
 
@@ -258,15 +271,25 @@ const StoreQuery = (key: string, value: StorageValue) => {
     const currentPath = currentUrl.pathname
     const currentParams = currentUrl.searchParams
 
-    if (value == null) {
+    const stringValue = storageToString(value)
+
+    if (value == null || stringValue == null) {
       currentParams.delete(key)
     } else {
-      currentParams.set(key, value.toString())
+      currentParams.set(key, stringValue)
     }
 
     const newSearch = currentParams.toString()
 
-    window.history.pushState({ path: currentPath, search: newSearch }, "", currentPath + "?" + newSearch)
+    let hash = ""
+
+    if (typeof window !== "undefined") {
+      if (window.location.hash) {
+        hash = window.location.hash
+      }
+    }
+
+    window.history.pushState({ path: currentPath, search: newSearch }, "", currentPath + "?" + newSearch + hash)
   }
 }
 
@@ -279,29 +302,11 @@ if (typeof window !== "undefined" && typeof document !== "undefined") {
     // @ts-ignore
     loadQueries({ state: { search: urlArray[1] } } as HashChangeEvent)
   }
-}
+} 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Hash Persistence
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-const StoreHash = (key: string, value: StorageValue) => {
-  if (typeof window !== "undefined") {
-    const params = stringToMap(window.location.hash)
-
-    const newString = storageToString(value)
-
-    if (newString == null) {
-      params.delete(key)
-    } else {
-      params.set(key, newString)
-    }
-
-    const newHash = "#" + mapToString(params)
-
-    window.location.hash = newHash
-  }
-}
 
 const loadHashes = (e: HashChangeEvent) => {
   if (e) {
@@ -312,7 +317,7 @@ const loadHashes = (e: HashChangeEvent) => {
     if (urlArray.length > 1) {
       const newHash = urlArray[1]
 
-      const newParams = stringToMap(newHash)
+      const newParams = hashToMap(newHash)
 
       newParams.forEach((data: string, key: string) => {
         const value = stringToStorage(data)
@@ -330,6 +335,24 @@ const loadHashes = (e: HashChangeEvent) => {
         updateValues(key, defaultValue)
       })
     }
+  }
+}
+
+const StoreHash = (key: string, value: StorageValue) => {
+  if (typeof window !== "undefined") {
+    const params = hashToMap(window.location.hash)
+
+    const newString = storageToString(value)
+
+    if (value == null) {
+      params.delete(key)
+    } else {
+      params.set(key, newString)
+    }
+
+    const newHash = mapToHash(params)
+
+    window.location.hash = newHash
   }
 }
 
@@ -353,7 +376,7 @@ const StoreLocal = (key: string, value: StorageValue) => {
     if (localStorage.getItem(key) !== value?.toString()) {
       const stringValue = storageToString(value)
 
-      if (stringValue == null) {
+      if (value == null || stringValue == null) {
         localStorage.removeItem(key)
       } else {
         localStorage.setItem(key, stringValue)

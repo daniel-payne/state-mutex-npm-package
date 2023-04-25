@@ -1,16 +1,18 @@
 import { useEffect, useState } from "react"
 
-import { subscribeStore, unsubscribe } from "./helpers/stateStore.js"
+import { subscribeStore, unsubscribe, clearStore } from "./helpers/stateStore.js"
 
 import type { StorageValue } from "./helpers/stateStore.js"
 
-export function useStore(): [StorageValue] {
-  const [value, setValue] = useState<StorageValue>(undefined)
+type ReturnType = { store: StorageValue, actions: { clearStore: ()=> void } } 
+
+export function useStore(): ReturnType{
+  const [store, setStore] = useState<StorageValue>(undefined)
 
   // Set Defaults /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   useEffect(() => {
     const updater = (value: StorageValue) => {
-      setValue(value)
+      setStore(value)
     }
 
     subscribeStore(updater)
@@ -21,5 +23,5 @@ export function useStore(): [StorageValue] {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  return [value]
+  return { store, actions: { clearStore } }
 }

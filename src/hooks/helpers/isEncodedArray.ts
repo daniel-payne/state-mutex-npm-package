@@ -1,8 +1,12 @@
 import isNothing from "./isNothing.js"
 
 export default function isEncodedArray(value: any): boolean {
-  if (isNothing(value)) {
+  if (value == null) {
     return false
+  }
+
+  if (value === "[]") {
+    return true
   }
 
   const asString = value?.toString().trim()

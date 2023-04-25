@@ -3,5 +3,5 @@ export default function mapToString(value: Map<string, string>): string {
 
   value.forEach((value, key) => result.push(key + "=" + value))
 
-  return result.join(",")
+  return result.join("&&")
 }

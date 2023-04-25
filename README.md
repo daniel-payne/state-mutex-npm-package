@@ -2,25 +2,23 @@
 
 ## Install
 
-**This is only a test publish, do not use yet.**
-
 ```bash
 npm i @keldan-systems/state-mutex
 ```
 
-The State Mutex has been tested with Create React App, however there are is still some work to do getting it ready to work with server rendered applications.
+The State Mutex has been tested with Create React App and RemixJS.
 
-Still todo
+With Remix you will need to add this to your **remix.config.js**
 
-- Extend default capture to work inside node
-- Build Demo clients for Remix & Next
-- Incorporate useSyncExternalStore instead of useState
+```typescript
+serverDependenciesToBundle: ["@keldan-systems/state-mutex"],
+```
 
 ## Demonstration
 
 The video shows how the different hooks can be used to manage state
 
-[![Demo](https://img.youtube.com/vi/Ox4755GS9xA/0.jpg)](https://www.youtube.com/watch?v=Ox4755GS9xA)
+[![Demo](https://img.youtube.com/vi/Fvof3an8pqU/0.jpg)](https://www.youtube.com/watch?v=Fvof3an8pqU)
 
 ## Get Started
 
@@ -31,6 +29,8 @@ All of these hooks need a key to access the common storage system, in addition t
 This hooks shares the state across all components that use it.
 
 ```typescript
+import { useSharedState } from "@keldan-systems/state-mutex"
+
 const [name, setName] = useSharedState<string>("name", "Bilbo")
 const [count, setCount] = useSharedState<number>("count", 44)
 const [active, setActive] = useSharedState<boolean>("active", true)
@@ -62,6 +62,8 @@ const [person, setPerson] = useSharedState<Person>("person", defaultPerson)
 In addition to sharing the state across all components, this hook cooridnates the saving and updating of the value in the browser query string. It will proritixe the query string value over the progrmaticly assigned default value.
 
 ```typescript
+import { useQueryState } from "@keldan-systems/state-mutex"
+
 const [name, setName] = useQueryState<string>("name", "Bilbo")
 const [count, setCount] = useQueryState<number>("count", 44)
 const [active, setActive] = useQueryState<boolean>("active", true)
@@ -72,6 +74,8 @@ const [active, setActive] = useQueryState<boolean>("active", true)
 In addition to sharing the state across all components, this hook cooridnates the saving and updating of the value in the browser hash. It will proritixe the query string value over the progrmaticly assigned default value.
 
 ```typescript
+import { useHashState } from "@keldan-systems/state-mutex"
+
 const [name, setName] = useHashState<string>("name", "Bilbo")
 const [count, setCount] = useHashState<number>("count", 44)
 const [active, setActive] = useHashState<boolean>("active", true)
@@ -84,6 +88,8 @@ In addition to sharing the state across all components, this hook cooridnates th
 This hook is designed to be used in applications where the logic is spread across multipule browser tabs, and is a good control and command system that does away with the need for cooridnating webHooks.
 
 ```typescript
+import { useLocalState } from "@keldan-systems/state-mutex"
+
 const [name, setName] = useLocalState<string>("name", "Bilbo")
 const [count, setCount] = useLocalState<number>("count", 44)
 const [active, setActive] = useLocalState<boolean>("active", true)
@@ -117,6 +123,12 @@ e.g.
 ```
 
 You can import any of these types for use in declaring the state hooks.
+
+```typescript
+import type { BaseStorage, ArrayStorage, RecordStorage, StorageValue } from "@keldan-systems/state-mutex"
+```
+
+based on these definitions
 
 ```typescript
 export type BaseStorage = string | number | boolean

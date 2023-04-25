@@ -26,20 +26,20 @@ describe("stringToStorage", () => {
   })
 
   it("should parse arrays", () => {
-    expect(stringToStorage("[]")).toBe(undefined)
+    expect(stringToStorage("[]")).toHaveLength(0)
     expect(stringToStorage("[1,2,3]")).toContain(1)
     expect(stringToStorage(`["one","two","three"]`)).toContain("two")
     expect(stringToStorage(`[1,"two",3]`)).toContain(3)
 
     expect(stringToStorage(`[1,"two",3,TRUE]`)[0]).toBe(1)
-    expect(stringToStorage(`[1,"two",3,TRUE]`)[1]).toBe('two')
+    expect(stringToStorage(`[1,"two",3,TRUE]`)[1]).toBe("two")
     expect(stringToStorage(`[1,"two",3,TRUE]`)[2]).toBe(3)
     expect(stringToStorage(`[1,"two",3,TRUE]`)[3]).toBe(true)
   })
 
   it("should parse objects", () => {
-    expect(stringToStorage("[]")).toBe(undefined)
-    expect(stringToStorage(`{"hello":"world"}`).hello).toBe('world')
-    expect(stringToStorage(`{"hello":"world","age":{"epoch":"LONG"}}`).age.epoch).toBe('LONG')
+    expect(stringToStorage("{}")).toEqual({})
+    expect(stringToStorage(`{"hello":"world"}`).hello).toBe("world")
+    expect(stringToStorage(`{"hello":"world","age":{"epoch":"LONG"}}`).age.epoch).toBe("LONG")
   })
 })

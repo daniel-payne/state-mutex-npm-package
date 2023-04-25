@@ -1,11 +1,11 @@
 export default function stringToMap(value: string | undefined | null): Map<string, string> {
-  const strings = value?.replace("#", "")
+  const strings = value?.replace(/\\"/g, "\"")
 
   if (strings == null || strings?.trim().length === 0) {
     return new Map()
   }
 
-  const items = strings.split(",")
+  const items = strings.split("&&")
 
   const result = new Map()
 

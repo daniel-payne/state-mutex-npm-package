@@ -1,71 +1,13 @@
 import storageToString from "../../../lib/esm/hooks/helpers/storageToString"
 
-import isNothing from "../../../lib/esm/hooks/helpers/isNothing"
-import isArray from "../../../lib/esm/hooks/helpers/isArray"
-import isObject from "../../../lib/esm/hooks/helpers/isObject"
-
-describe("isArray", () => {
-  it("should idendifity arrays", () => {
-    expect(isArray(undefined)).not.toBe(true)
-    expect(isArray(null)).not.toBe(true)
-    expect(isArray("")).not.toBe(true)
-    expect(isArray("   ")).not.toBe(true)
-    expect(isArray([])).toBe(true)
-    expect(isArray({})).not.toBe(true)
-
-    expect(isArray(1)).not.toBe(true)
-    expect(isArray("A")).not.toBe(true)
-    expect(isArray([1, 2, 3])).toBe(true)
-    expect(isArray({ hello: "world" })).not.toBe(true)
-  })
-})
-
-describe("isObject", () => {
-  it("should idendifity objects", () => {
-    expect(isObject(undefined)).not.toBe(true)
-    expect(isObject(null)).not.toBe(true)
-    expect(isObject("")).not.toBe(true)
-    expect(isObject("   ")).not.toBe(true)
-    expect(isObject([])).not.toBe(true)
-    expect(isObject({})).toBe(true)
-
-    expect(isObject(1)).not.toBe(true)
-    expect(isObject("A")).not.toBe(true)
-    expect(isObject([1, 2, 3])).not.toBe(true)
-    expect(isObject({ hello: "world" })).toBe(true)
-  })
-})
-
-describe("isNothing", () => {
-  it("should idendifity no information", () => {
-    expect(isNothing(undefined)).toBe(true)
-    expect(isNothing(null)).toBe(true)
-    expect(isNothing("")).toBe(true)
-    expect(isNothing("   ")).toBe(true)
-    expect(isNothing([])).toBe(true)
-    expect(isNothing({})).toBe(true)
-
-    expect(isNothing(1)).not.toBe(true)
-    expect(isNothing("A")).not.toBe(true)
-    expect(isNothing([1, 2, 3])).not.toBe(true)
-    expect(isNothing({ hello: "world" })).not.toBe(true)
-
-    expect(isNothing("[]")).toBe(true)
-    expect(isNothing("{}")).toBe(true)
-
-    expect(isNothing("''")).toBe(true)
-    expect(isNothing('""')).toBe(true)
-  })
-})
-
 describe("storageToString", () => {
   it("should not pass empty information", () => {
     expect(storageToString(undefined)).toBeUndefined()
     expect(storageToString(null)).toBeUndefined()
-    expect(storageToString("")).toBeUndefined()
-    expect(storageToString("   ")).toBeUndefined()
-    expect(storageToString([])).toBeUndefined()
-    expect(storageToString({})).toBeUndefined()
+
+    expect(storageToString("")).not.toBeUndefined()
+    expect(storageToString([])).not.toBeUndefined()
+    expect(storageToString({})).not.toBeUndefined()
 
     expect(storageToString(1)).not.toBeUndefined()
     expect(storageToString("A")).not.toBeUndefined()
@@ -74,12 +16,10 @@ describe("storageToString", () => {
   })
 
   it("should correctly represent the value", () => {
-    expect(storageToString(undefined)).toBeUndefined()
-    expect(storageToString(null)).toBeUndefined()
-    expect(storageToString("")).toBeUndefined()
-    expect(storageToString("   ")).toBeUndefined()
-    expect(storageToString([])).toBeUndefined()
-    expect(storageToString({})).toBeUndefined()
+ 
+    expect(storageToString("")).toBe('""')
+    expect(storageToString([])).toBe('[]')
+    expect(storageToString({})).toBe('{}')
 
     expect(storageToString(1)).toBe("1")
     expect(storageToString("A")).toBe('"A"')
