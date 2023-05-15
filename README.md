@@ -1,5 +1,19 @@
 # state-mutex
 
+## WHY use this package
+
+### If you want to write one liner state management control code.
+
+I have tried all the other state management techniques, and they are too complex for simple UI management and too simple for business management logic. I want simple one-liner state management for my UI and keep all the complex business logic in a database, where it belongs.
+
+### If you want to share state via an email.
+
+I often need users to email support issues in, and when I keep the state in the URL. The users can send me that text and I can put my browser into the same state with a simple cut & paste.
+
+### If you want to share state across browser tabs. 
+
+I am often writing complex financial management application that are spread across several screens. I need those screens to share state, so that one can act as a control window and another can display detailed information. I don't want to use a server to orchestrate the communication between the windows.
+
 ## Install
 
 ```bash

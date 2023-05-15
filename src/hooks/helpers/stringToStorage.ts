@@ -23,7 +23,7 @@ export default function stringToStorage(value: string | null | undefined): Stora
 
       const asContentArray = asContentString?.split(",")
 
-      const asStorageArray = asContentArray?.map((item) => stringToSimpleType(item))
+      const asStorageArray = asContentArray?.map((item) => stringToStorage(item))
 
       // console.log('======================== ARRAY' )
       // console.log('value ', value)

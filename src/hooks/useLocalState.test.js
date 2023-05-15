@@ -70,7 +70,7 @@ describe("useLocalState", () => {
   })
 
   it("be able to save and restore a array of items", () => {
-    const testValue = ["1", 2, true, false]
+    const testValue = ["1", 2, true, false, {name: 'ome'}, {name: 2}]
 
     const { result: hook1 } = renderHook(() => useLocalState("TEST-ARRAY", testValue))
     const { result: hook2 } = renderHook(() => useLocalState("TEST-ARRAY", testValue))
