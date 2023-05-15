@@ -14,6 +14,12 @@ I often need users to email support issues in, and when I keep the state in the 
 
 I am often writing complex financial management application that are spread across several screens. I need those screens to share state, so that one can act as a control window and another can display detailed information. I don't want to use a server to orchestrate the communication between the windows.
 
+## Demonstration
+
+[![Demo](https://img.youtube.com/vi/Fvof3an8pqU/0.jpg)](https://www.youtube.com/watch?v=Fvof3an8pqU)
+
+The video shows how the different hooks can be used to manage state
+
 ## Install
 
 ```bash
@@ -27,12 +33,6 @@ With Remix you will need to add this to your **remix.config.js**
 ```typescript
 serverDependenciesToBundle: ["@keldan-systems/state-mutex"],
 ```
-
-## Demonstration
-
-The video shows how the different hooks can be used to manage state
-
-[![Demo](https://img.youtube.com/vi/Fvof3an8pqU/0.jpg)](https://www.youtube.com/watch?v=Fvof3an8pqU)
 
 ## Get Started
 
