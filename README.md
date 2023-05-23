@@ -109,6 +109,16 @@ const [count, setCount] = useLocalState<number>("count", 44)
 const [active, setActive] = useLocalState<boolean>("active", true)
 ```
 
+### useDataState (key: string) **NEW**
+
+This exposes the store value without knowing how it is stored or defined.
+
+This can be used for simple reactive display components. It will be undefined untill somewhere in the application sets a value or a default.
+
+```typescript
+const value = useDataState<string>('name')
+```
+
 ### useStore
 
 This exposes the store object if you need to display it for debugging issues.

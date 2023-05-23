@@ -31,10 +31,11 @@ describe("stringToStorage", () => {
     expect(stringToStorage(`["one","two","three"]`)).toContain("two")
     expect(stringToStorage(`[1,"two",3]`)).toContain(3)
 
-    expect(stringToStorage(`[1,"two",3,TRUE]`)[0]).toBe(1)
-    expect(stringToStorage(`[1,"two",3,TRUE]`)[1]).toBe("two")
-    expect(stringToStorage(`[1,"two",3,TRUE]`)[2]).toBe(3)
-    expect(stringToStorage(`[1,"two",3,TRUE]`)[3]).toBe(true)
+
+    expect(stringToStorage(`[1,"two",3,true]`)[0]).toBe(1)
+    expect(stringToStorage(`[1,"two",3,true]`)[1]).toBe("two")
+    expect(stringToStorage(`[1,"two",3,true]`)[2]).toBe(3)
+    expect(stringToStorage(`[1,"two",3,true]`)[3]).toBe(true)
   })
 
   it("should parse objects", () => {

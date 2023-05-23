@@ -18,12 +18,10 @@ export default function stringToStorage(value: string | null | undefined): Stora
         return []
       }
 
-      const asObject = JSON.parse(asString)
+      const asArray = JSON.parse(asString)
 
-      return asObject
-    }
-
-    if (isEncodedObject(value)) {
+      return asArray
+    } else if (isEncodedObject(value)) {
       const asString = value?.toString() ?? "{}"
 
       if (asString === "{}") {
@@ -33,14 +31,12 @@ export default function stringToStorage(value: string | null | undefined): Stora
       const asObject = JSON.parse(asString)
 
       return asObject
+    } else {
+      const asSimpleString = stringToSimpleType(value)
+
+      return asSimpleString
     }
-
-    const asSimpleString = stringToSimpleType(value)
-
-    return asSimpleString
   } catch (error) {
-    // console.log(error)
-
     return value?.toString()
   }
 }
