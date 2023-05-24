@@ -20,6 +20,8 @@ I am often writing complex financial management application that are spread acro
 
 The video shows how the different hooks can be used to manage state
 
+Try out this demo at http://keldan.org.uk/statemutex
+
 ## Install
 
 ```bash
