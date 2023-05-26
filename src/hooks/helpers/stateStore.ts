@@ -44,6 +44,9 @@ const defaultQueries = new Map<StoreKey, StorageValue>()
 const defaultHashes = new Map<StoreKey, StorageValue>()
 const defaultLocals = new Map<StoreKey, StorageValue>()
 
+const initialQueries = new Map<StoreKey, StorageValue>()
+const initialHashes = new Map<StoreKey, StorageValue>()
+
 const isQueryKey = (key: StoreKey): boolean => {
   return defaultQueries.has(key)
 }
@@ -57,8 +60,18 @@ const isLocalKey = (key: StoreKey): boolean => {
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// Loading Initilization
+// Loading Initialization
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+export function currentStore() {
+  return {
+    values: Object.fromEntries(values),
+    defaultQueries: Object.fromEntries(defaultQueries),
+    defaultHashes: Object.fromEntries(defaultHashes),
+    defaultLocals: Object.fromEntries(defaultLocals),
+    initialQueries: Object.fromEntries(initialQueries),
+    initialHashes: Object.fromEntries(initialHashes),
+  } as StorageValue
+}
 
 export function clearStore() {
   const currentUrl = new URL(document.URL)
@@ -98,6 +111,8 @@ export function clearStore() {
           defaultQueries: Object.fromEntries(defaultQueries),
           defaultHashes: Object.fromEntries(defaultHashes),
           defaultLocals: Object.fromEntries(defaultLocals),
+          initialQueries: Object.fromEntries(initialQueries),
+          initialHashes: Object.fromEntries(initialHashes),
         } as StorageValue)
       }
     })
@@ -220,6 +235,8 @@ function updateValues(key: StoreKey, value: StorageValue) {
           defaultQueries: Object.fromEntries(defaultQueries),
           defaultHashes: Object.fromEntries(defaultHashes),
           defaultLocals: Object.fromEntries(defaultLocals),
+          initialQueries: Object.fromEntries(initialQueries),
+          initialHashes: Object.fromEntries(initialHashes),
         } as StorageValue)
       }
     })
@@ -251,6 +268,8 @@ const loadQueries = (e: PopStateEvent) => {
       const value = stringToStorage(data)
 
       updateValues(key, value)
+
+      initialQueries.set(key, value)
     })
 
     defaultQueries.forEach((defaultValue: StorageValue, key: string) => {
@@ -302,7 +321,7 @@ if (typeof window !== "undefined" && typeof document !== "undefined") {
     // @ts-ignore
     loadQueries({ state: { search: urlArray[1] } } as HashChangeEvent)
   }
-} 
+}
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Hash Persistence
@@ -323,6 +342,7 @@ const loadHashes = (e: HashChangeEvent) => {
         const value = stringToStorage(data)
 
         updateValues(key, value)
+        initialHashes.set(key, value)
       })
 
       defaultHashes.forEach((defaultValue: StorageValue, key: string) => {

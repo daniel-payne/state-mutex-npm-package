@@ -10,7 +10,7 @@ I have tried all the other state management techniques, and they are too complex
 
 I often need users to email support issues in, and when I keep the state in the URL. The users can send me that text and I can put my browser into the same state with a simple cut & paste.
 
-### If you want to share state across browser tabs. 
+### If you want to share state across browser tabs.
 
 I am often writing complex financial management application that are spread across several screens. I need those screens to share state, so that one can act as a control window and another can display detailed information. I don't want to use a server to orchestrate the communication between the windows.
 
@@ -87,7 +87,7 @@ const [active, setActive] = useQueryState<boolean>("active", true)
 
 ### useHashState (key: string, defaultValue: StorageValue)
 
-In addition to sharing the state across all components, this hook coordinates the saving and updating of the value in the browser hash. It will prioritize the query string value over the programmatically assigned default value.
+In addition to sharing the state across all components, this hook coordinates the saving and updating of the value in the browser hash. It will prioritize the hash value over the programmatically assigned default value.
 
 ```typescript
 import { useHashState } from "@keldan-systems/state-mutex"
@@ -101,7 +101,7 @@ const [active, setActive] = useHashState<boolean>("active", true)
 
 In addition to sharing the state across all components, this hook coordinates the saving and updating of the value in the local storage. It will prioritize the local storage value over the programmatically assigned default value.
 
-This hook is designed to be used in applications where the logic is spread across multiple browser tabs, and is a good control and command system that does away with the need for coordinating webHooks.
+This hook is designed to be used in applications where the logic is spread across multiple browser tabs, and is a good control and command system that does away with the need for coordinating web sockets.
 
 ```typescript
 import { useLocalState } from "@keldan-systems/state-mutex"
@@ -118,7 +118,7 @@ This exposes the store value without knowing how it is stored or defined.
 This can be used for simple reactive display components. It will be undefined untill somewhere in the application sets a value or a default.
 
 ```typescript
-const value = useDataState<string>('name')
+const value = useDataState<string>("name")
 ```
 
 ### useStore
@@ -127,7 +127,28 @@ This exposes the store object if you need to display it for debugging issues.
 It also exposes a method for clearing the store, and resetting it to it's default values.
 
 ```typescript
+import { useStore } from "@keldan-systems/state-mutex"
+
 const { store, clearStore } = useStore()
+```
+
+### useParameters **NEW**
+
+I have difficulty when using **React Router**, I have not found a way to get it to listen to the updates of the query string inside a hook.
+
+This hook is designed to keep in sync with any changes in the data stored in the URL, so i can construct the correct link in a SPA.
+
+```typescript
+import { useParameters } from "@keldan-systems/state-mutex";
+
+const {search, hash} = useParameters();
+
+const pageReference = { pathname: "/any-page", search, hash };
+
+...
+  <Link to={pageReference}>Home</Link>
+...
+
 ```
 
 ### Types

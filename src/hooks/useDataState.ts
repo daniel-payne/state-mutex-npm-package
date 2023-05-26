@@ -1,13 +1,13 @@
-import { useCallback, useEffect, useState } from "react"
+import { useEffect, useState } from "react"
 
-import { getValue, subscribe, unsubscribe, updateStore, initalizeStore, StoragePersistence } from "./helpers/stateStore.js"
+import { getValue, subscribe, unsubscribe } from "./helpers/stateStore.js"
 
 import type { Dispatch } from "react"
 
 import type { StorageValue } from "./helpers/stateStore.js"
 
-export function useDataState<T extends StorageValue>(key: string ): [T|undefined] {
-  const [value, setValue] = useState<T|undefined>(undefined)
+export function useDataState<T extends StorageValue>(key: string): T | undefined {
+  const [value, setValue] = useState<T | undefined>(undefined)
 
   // Set Defaults /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   useEffect(() => {
@@ -28,5 +28,5 @@ export function useDataState<T extends StorageValue>(key: string ): [T|undefined
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [setValue])
 
-  return [value]
+  return value
 }
