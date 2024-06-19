@@ -28,7 +28,17 @@ Try out this demo at http://keldan.org.uk/statemutex
 npm i @keldan-systems/state-mutex
 ```
 
-The State Mutex has been tested with Create React App and RemixJS.
+The State Mutex has been tested with Create React App, Vite, NextJS and RemixJS.
+
+### NextJS
+
+With NextJS, these hooks are designed to be used in client components, so should be use in conjunction with
+
+```typescript
+"use client"
+```
+
+### Remix
 
 With Remix you will need to add this to your **remix.config.js**
 
@@ -111,11 +121,11 @@ const [count, setCount] = useLocalState<number>("count", 44)
 const [active, setActive] = useLocalState<boolean>("active", true)
 ```
 
-### useDataState (key: string) **NEW**
+### useDataState (key: string)
 
 This exposes the store value without knowing how it is stored or defined.
 
-This can be used for simple reactive display components. It will be undefined untill somewhere in the application sets a value or a default.
+This can be used for simple reactive display components. It will be undefined until somewhere in the application sets a value or a default.
 
 ```typescript
 const value = useDataState<string>("name")
@@ -132,23 +142,82 @@ import { useStore } from "@keldan-systems/state-mutex"
 const { store, clearStore } = useStore()
 ```
 
-### useParameters **NEW**
+### setState **NEW**
+
+If you need to update values outside of react and hooks. This function allows you to set the store directly
+
+```typescript
+import { setState } from "@keldan-systems/state-mutex"
+
+setState("name", "value")
+```
+
+### useParameters
 
 I have difficulty when using **React Router**, I have not found a way to get it to listen to the updates of the query string inside a hook.
 
 This hook is designed to keep in sync with any changes in the data stored in the URL, so i can construct the correct link in a SPA.
 
 ```typescript
-import { useParameters } from "@keldan-systems/state-mutex";
+import { useParameters } from "@keldan-systems/state-mutex"
 
-const {search, hash} = useParameters();
+const { search, hash } = useParameters()
 
-const pageReference = { pathname: "/any-page", search, hash };
+const pageReference = { pathname: "/any-page", search, hash }
 
-...
-  <Link to={pageReference}>Home</Link>
-...
+;<Link to={pageReference}>Home</Link>
+```
 
+### useSharedMessage **WORK IN PROGRESS**
+
+Sometimes it is good to use a RPC style imperative call to force other components to update. This hook allows for Publish Subscribe implementation to coordinate across components.
+
+```typescript
+const { publish, subscribe, unsubscribe } = useSharedMessage("MESSAGE-NUMBER")
+
+const [display, setDisplay] = useState<any>("#FFF")
+
+const handleSubscribe = (message: any) => {
+  setDisplay(randomHexColor())
+}
+
+useEffect(() => {
+  subscribe(handleSubscribe)
+
+  return () => {
+    unsubscribe()
+  }
+}, [subscribe, unsubscribe])
+
+const handleClick = () => {
+  publish()
+}
+```
+
+### useSharedBroadcast **WORK IN PROGRESS**
+
+This hook allows for Publish Subscribe to be coordinated across components on different tabs,
+
+```typescript
+const { publish, subscribe, unsubscribe } = useSharedBroadcast("BROADCAST-NUMBER")
+
+const [display, setDisplay] = useState<any>("#FFF")
+
+const handleSubscribe = (message: any) => {
+  setDisplay(randomHexColor())
+}
+
+useEffect(() => {
+  subscribe(handleSubscribe)
+
+  return () => {
+    unsubscribe()
+  }
+}, [subscribe, unsubscribe])
+
+const handleClick = () => {
+  publish()
+}
 ```
 
 ### Types

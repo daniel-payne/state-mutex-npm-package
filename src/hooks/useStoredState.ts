@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from "react"
 
-import { getValue, subscribe, unsubscribe, updateStore, initalizeStore, StoragePersistence } from "./helpers/stateStore.js"
+import { getValue, subscribe, unsubscribe, updateStore, initializeStore, StoragePersistence } from "./helpers/stateStore.js"
 
 import type { Dispatch } from "react"
 
@@ -11,7 +11,7 @@ export function useStoredState<T extends StorageValue>(key: string, defaultValue
 
   // Set Defaults /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   useEffect(() => {
-    initalizeStore(key, defaultValue, persistence)
+    initializeStore(key, defaultValue, persistence)
 
     const value = getValue(key) as T
 

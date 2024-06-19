@@ -33,8 +33,6 @@ export enum StoragePersistence {
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 type ListnerAction = (value: StorageValue) => void
 
-let logChanges = false
-
 const values = new Map<StoreKey, StorageValue>()
 
 // @ts-ignore
@@ -126,7 +124,7 @@ export function getValue(key: StoreKey): StorageValue {
   return values.get(key)
 }
 
-export function initalizeStore(key: StoreKey, defaultValue: StorageValue, persistence: StoragePersistence) {
+export function initializeStore(key: StoreKey, defaultValue: StorageValue, persistence: StoragePersistence) {
   if (persistence === StoragePersistence.hash && isHashKey(key) === false) {
     defaultHashes.set(key, defaultValue)
   } else if (persistence === StoragePersistence.query && isQueryKey(key) === false) {
@@ -218,10 +216,6 @@ function updateValues(key: StoreKey, value: StorageValue) {
           action(value)
         }
       })
-
-    if (logChanges) {
-      console.log(key, value)
-    }
   }
 
   listeners
