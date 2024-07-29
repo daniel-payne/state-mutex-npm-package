@@ -1,6 +1,7 @@
-import { renderHook, act } from "@testing-library/react"
+import { act } from "react"
+import { renderHook } from "@testing-library/react"
 
-import {useLocalState} from "../../lib/esm/hooks/useLocalState"
+import { useLocalState } from "../../lib/esm/hooks/useLocalState"
 
 const VALUE = 0
 const SET = 1
@@ -70,7 +71,7 @@ describe("useLocalState", () => {
   })
 
   it("be able to save and restore a array of items", () => {
-    const testValue = ["1", 2, true, false, {name: 'ome'}, {name: 2}]
+    const testValue = ["1", 2, true, false, { name: "ome" }, { name: 2 }]
 
     const { result: hook1 } = renderHook(() => useLocalState("TEST-ARRAY", testValue))
     const { result: hook2 } = renderHook(() => useLocalState("TEST-ARRAY", testValue))

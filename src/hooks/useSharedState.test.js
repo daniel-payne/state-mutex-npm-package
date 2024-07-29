@@ -1,4 +1,5 @@
-import { renderHook, act } from "@testing-library/react"
+import { act } from "react"
+import { renderHook } from "@testing-library/react"
 
 import { useSharedState } from "../../lib/esm/hooks/useSharedState"
 
@@ -56,7 +57,7 @@ describe("useSharedState", () => {
     const { result: hook2 } = renderHook(() => useSharedState("SHARED-TEST-NUMBER", testValue))
 
     expect(hook1.current[VALUE]).toBe(testValue)
-    expect(hook2.current[VALUE]).toBe(testValue) 
+    expect(hook2.current[VALUE]).toBe(testValue)
   })
 
   it("be able to save and restore a boolean", () => {
@@ -70,7 +71,7 @@ describe("useSharedState", () => {
   })
 
   it("be able to save and restore a array of items", () => {
-    const testValue = ["1", 2, true, false]   
+    const testValue = ["1", 2, true, false]
 
     const { result: hook1 } = renderHook(() => useSharedState("SHARED-TEST-ARRAY", testValue))
     const { result: hook2 } = renderHook(() => useSharedState("SHARED-TEST-ARRAY", testValue))
@@ -96,5 +97,4 @@ describe("useSharedState", () => {
     expect(hook1.current[VALUE]).toStrictEqual(testNew)
     expect(hook2.current[VALUE]).toStrictEqual(testNew)
   })
-
 })

@@ -142,14 +142,25 @@ import { useStore } from "@keldan-systems/state-mutex"
 const { store, clearStore } = useStore()
 ```
 
-### setState **NEW**
+### setState **UPDATED**
 
 If you need to update values outside of react and hooks. This function allows you to set the store directly
 
 ```typescript
 import { setState } from "@keldan-systems/state-mutex"
 
-setState("name", "value")
+setState("name", "value", "storagePersistence")
+
+NOTE storagePersistence is optional and defaults to none.
+
+The values you can use are :
+
+enum StoragePersistence {
+  none = "N",
+  query = "Q",
+  hash = "H",
+  local = "L",
+}
 ```
 
 ### useParameters
@@ -253,5 +264,11 @@ export type ArrayStorage = Array<BaseStorage | RecordStorage>
 
 export type RecordStorage = { [key: string]: BaseStorage | ArrayStorage | RecordStorage | null }
 
-export type StorageValue = BaseStorage | ArrayStorage | RecordStorage | undefined | null
+export type StorageValue = BaseStorage | ArrayStorage | RecordStorage | undefined | nul
+```
+
+this package uses
+
+```
+npm install --save-dev @testing-library/dom @testing-library/jest-dom @testing-library/react @testing-library/user-event @types/jest @types/node @types/react @types/react-dom react-scripts semantic-release
 ```
