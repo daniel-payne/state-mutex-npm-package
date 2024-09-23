@@ -149,20 +149,7 @@ If you need to read values outside of react and hooks. This function allows you 
 ```typescript
 import { getState, StoragePersistence } from "@keldan-systems/state-mutex"
 
-getState("name", "defaultValue?", "storagePersistence?")
-
-NOTE defaultValue is optional and will return undefined if not there an no default set.
-
-NOTE storagePersistence is optional and defaults to none.
-
-The values you can use are :
-
-enum StoragePersistence {
-  none = "N",
-  query = "Q",
-  hash = "H",
-  local = "L",
-}
+getState("name")
 ```
 
 ### setState
@@ -173,17 +160,27 @@ If you need to update values outside of react and hooks. This function allows yo
 import { setState, StoragePersistence } from "@keldan-systems/state-mutex"
 
 setState("name", "value", "storagePersistence?")
+```
 
 NOTE storagePersistence is optional and defaults to none.
 
 The values you can use are :
 
 enum StoragePersistence {
-  none = "N",
-  query = "Q",
-  hash = "H",
-  local = "L",
+none = "N",
+query = "Q",
+hash = "H",
+local = "L",
 }
+
+### getStore **NEW**
+
+If you need to read values outside of react and hooks. This function allows you to get store directly for debugging purposes
+
+```typescript
+import { getStore } from "@keldan-systems/state-mutex"
+
+getStore()
 ```
 
 ### useParameters
@@ -199,7 +196,7 @@ const { search, hash } = useParameters()
 
 const pageReference = { pathname: "/any-page", search, hash }
 
-;<Link to={pageReference}>Home</Link>
+<Link to={pageReference}>Home</Link>
 ```
 
 ### useSharedMessage **WORK IN PROGRESS**

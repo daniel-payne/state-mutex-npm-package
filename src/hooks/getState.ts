@@ -1,16 +1,14 @@
-import { getValue, initializeStore, updateStore } from "./helpers/stateStore.js"
+import { getValue, hasValue } from "./helpers/stateStore.js"
 
-import { StoragePersistence } from "./helpers/stateStore.js"
+import type { StoreKey } from "./helpers/stateStore.js"
 
-import type { StorageValue, StoreKey } from "./helpers/stateStore.js"
+export function getState(key: StoreKey) {
+  const hasValueInStore = hasValue(key)
+  const storeValue = getValue(key)
 
-export function getState(key: StoreKey, defaultValue: StorageValue, storagePersistence: StoragePersistence = StoragePersistence.none) {
-  const oldValue = getValue(key)
-
-  if (defaultValue != null && oldValue == null) {
-    initializeStore(key, defaultValue, storagePersistence)
-    return defaultValue
+  if (hasValueInStore === true) {
+    return storeValue
+  } else {
+    return null
   }
-
-  return oldValue
 }

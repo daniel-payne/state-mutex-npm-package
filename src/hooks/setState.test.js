@@ -1,9 +1,4 @@
-import { act } from "react"
-import { renderHook } from "@testing-library/react"
-
 import { setState } from "../../lib/esm/hooks/setState"
-import { useStoredState } from "../../lib/esm/hooks/useStoredState"
-import { useDataState } from "../../lib/esm/hooks/useDataState"
 
 describe("setState", () => {
   it("should be there", () => {
@@ -11,16 +6,12 @@ describe("setState", () => {
   })
 
   it("have a default value", () => {
-    renderHook(() => useStoredState("STORE-2", 1))
+    let data = setState("SET-NUMBER", 0, "N")
 
-    const { result: hook } = renderHook(() => useDataState("STORE-2"))
+    expect(data).toBe(0)
 
-    expect(hook.current).toBe(1)
+    data = setState("SET-NUMBER", 1, "N")
 
-    act(() => {
-      setState("STORE-2", 2)
-    })
-
-    expect(hook.current).toBe(2)
+    expect(data).toBe(1)
   })
 })
