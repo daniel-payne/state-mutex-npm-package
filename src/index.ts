@@ -10,6 +10,7 @@ export { useSharedBroadcast } from "./hooks/useSharedBroadcast.js"
 export { useStore } from "./hooks/useStore.js"
 export { useParameters } from "./hooks/useParameters.js"
 
+export { getState } from "./hooks/getState.js"
 export { setState } from "./hooks/setState.js"
 
 export { StoragePersistence } from "./hooks/helpers/stateStore.js"

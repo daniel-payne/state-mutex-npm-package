@@ -142,14 +142,37 @@ import { useStore } from "@keldan-systems/state-mutex"
 const { store, clearStore } = useStore()
 ```
 
-### setState **UPDATED**
+### getState **NEW**
+
+If you need to read values outside of react and hooks. This function allows you to get from the store directly
+
+```typescript
+import { getState, StoragePersistence } from "@keldan-systems/state-mutex"
+
+getState("name", "defaultValue?", "storagePersistence?")
+
+NOTE defaultValue is optional and will return undefined if not there an no default set.
+
+NOTE storagePersistence is optional and defaults to none.
+
+The values you can use are :
+
+enum StoragePersistence {
+  none = "N",
+  query = "Q",
+  hash = "H",
+  local = "L",
+}
+```
+
+### setState
 
 If you need to update values outside of react and hooks. This function allows you to set the store directly
 
 ```typescript
-import { setState } from "@keldan-systems/state-mutex"
+import { setState, StoragePersistence } from "@keldan-systems/state-mutex"
 
-setState("name", "value", "storagePersistence")
+setState("name", "value", "storagePersistence?")
 
 NOTE storagePersistence is optional and defaults to none.
 
