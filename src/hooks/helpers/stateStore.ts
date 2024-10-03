@@ -419,6 +419,6 @@ if (typeof window !== "undefined" && typeof document !== "undefined" && typeof l
     const newString = localStorage.getItem(key)
     const newValue = stringToStorage(newString)
 
-    updateValues(key, newValue)
+    initializeStore(key, newValue, StoragePersistence.local)
   }
 }
