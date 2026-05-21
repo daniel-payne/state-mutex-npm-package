@@ -1,6 +1,6 @@
 {
   "name": "@keldan-systems/state-mutex",
-  "version": "0.0.34",
+  "version": "0.0.35",
   "description": "Simple State Management for react",
   "type": "module",
   "exports": {
@@ -18,7 +18,8 @@
   "types": "./lib/cjs/types/index.d.ts",
   "main": "./lib/cjs/index.js",
   "files": [
-    "lib/**/*"
+    "lib/**/*",
+    "configs/*.json"
   ],
   "scripts": {
     "clean": "rm -rf ./lib",
@@ -67,13 +68,13 @@
     "@testing-library/user-event": "^14.5.2",
     "@types/jest": "^29.5.12",
     "@types/node": "^22.0.0",
-    "@types/react": "^18.3.3",
+    "@types/react": "^18.3.3 || ^19.0.0",
     "@types/react-dom": "^18.3.0",
     "react-scripts": "^5.0.1",
     "semantic-release": "^24.0.0"
   },
   "peerDependencies": {
-    "react": "^18.2.0"
+    "react": "^18.2.0 || ^19.0.0"
   },
   "prettier": {
     "semi": false,
