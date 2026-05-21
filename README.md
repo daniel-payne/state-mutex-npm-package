@@ -20,7 +20,7 @@ I am often writing complex financial management application that are spread acro
 
 The video shows how the different hooks can be used to manage state
 
-Try out this demo at http://keldan.org.uk/statemutex
+Try out this demo at http://keldan.co.uk/statemutex
 
 ## Install
 
@@ -121,6 +121,20 @@ const [count, setCount] = useLocalState<number>("count", 44)
 const [active, setActive] = useLocalState<boolean>("active", true)
 ```
 
+### useSessionState (key: string, defaultValue: StorageValue) **NEW**
+
+In addition to sharing the state across all components, this hook coordinates the saving and updating of the value in the session storage. It will prioritize the session storage value over the programmatically assigned default value.
+
+This hook is designed to be used in applications where the logic is spread across multiple browser tabs, and is a good control and command system that does away with the need for coordinating web sockets.
+
+```typescript
+import { useSessionState } from "@keldan-systems/state-mutex"
+
+const [name, setName] = useSessionState<string>("name", "Bilbo")
+const [count, setCount] = useSessionState<number>("count", 44)
+const [active, setActive] = useSessionState<boolean>("active", true)
+```
+
 ### useDataState (key: string)
 
 This exposes the store value without knowing how it is stored or defined.
@@ -142,7 +156,7 @@ import { useStore } from "@keldan-systems/state-mutex"
 const { store, clearStore } = useStore()
 ```
 
-### getState **NEW**
+### getState  
 
 If you need to read values outside of react and hooks. This function allows you to get from the store directly
 
@@ -173,7 +187,7 @@ hash = "H",
 local = "L",
 }
 
-### getStore **NEW**
+### getStore  
 
 If you need to read values outside of react and hooks. This function allows you to get store directly for debugging purposes
 
