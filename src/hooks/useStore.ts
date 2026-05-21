@@ -9,8 +9,8 @@ export type StoreType = { store: StorageValue; actions: { clearStore: () => void
 export function useStore(): StoreType {
   const [store, setStore] = useState<StorageValue>(currentStore())
 
-  const clearStore = () => {
-    setStore({})
+  const handleClearStore = () => {
+    clearStore()
   }
 
   // Set Defaults /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -27,5 +27,5 @@ export function useStore(): StoreType {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  return { store, actions: { clearStore } }
+  return { store, actions: { clearStore: handleClearStore } }
 }

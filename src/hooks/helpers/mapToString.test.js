@@ -1,4 +1,4 @@
-import mapToString from "../../../lib/esm/hooks/helpers/mapToString"
+import mapToString from "./mapToString"
 
 describe("mapToString", () => {
   it("should be there", () => {

@@ -1,4 +1,4 @@
-import stringToStorage from "../../../lib/esm/hooks/helpers/stringToStorage"
+import stringToStorage from "./stringToStorage"
 
 describe("stringToStorage", () => {
   it("should parse strings", () => {

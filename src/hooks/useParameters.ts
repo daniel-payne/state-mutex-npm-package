@@ -11,29 +11,33 @@ const calculateParameters = (store: StorageValue) => {
 
   const { defaultQueries, defaultHashes, initialQueries, initialHashes, values } = store as Record<string, any>
 
-  let search = ""
-  let hash = ""
-  let text = ""
-
+  const searchParams: string[] = []
   for (const name in defaultQueries) {
     const defaultQuery = defaultQueries[name]
     const initialQuery = initialQueries[name]
     const currentQuery = values[name]
 
-    if (currentQuery || defaultQuery || initialQuery) {
-      search += `${name}=${currentQuery ?? defaultQuery ?? initialQuery}`
+    const val = currentQuery ?? defaultQuery ?? initialQuery
+    if (val != null) {
+      searchParams.push(`${name}=${val}`)
     }
   }
+  const search = searchParams.join("&")
 
+  const hashParams: string[] = []
   for (const name in defaultHashes) {
     const defaultHash = defaultHashes[name]
     const initialHash = initialHashes[name]
     const currentHash = values[name]
 
-    if (currentHash || defaultHash || initialHash) {
-      hash += `${name}=${currentHash ?? defaultHash ?? initialHash}`
+    const val = currentHash ?? defaultHash ?? initialHash
+    if (val != null) {
+      hashParams.push(`${name}=${val}`)
     }
   }
+  const hash = hashParams.join("&&")
+
+  let text = ""
 
   if (search.length) {
     newParameters.search = search

@@ -24,9 +24,7 @@ export function useDataState<T extends StorageValue>(key: string): T | undefined
     return () => {
       unsubscribe(updater)
     }
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [setValue])
+  }, [key])
 
   return value
 }

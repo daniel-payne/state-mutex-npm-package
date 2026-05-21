@@ -1,4 +1,4 @@
-import hashToMap from "../../../lib/esm/hooks/helpers/hashToMap"
+import hashToMap from "./hashToMap"
 
 describe("hashToMap", () => {
   it("should be there", () => {

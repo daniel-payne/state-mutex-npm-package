@@ -1,5 +1,5 @@
-import { getStore } from "../../lib/esm/hooks/getStore"
-import { setState } from "../../lib/esm/hooks/setState"
+import { getStore } from "./getStore"
+import { setState } from "./setState"
 
 describe("setState", () => {
   it("should be there", () => {

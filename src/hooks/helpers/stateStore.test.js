@@ -1,4 +1,4 @@
-import {clearStore} from "../../../lib/esm/hooks/helpers/stateStore"
+import {clearStore} from "./stateStore"
 
 describe("stateStore", () => {
   it("should be there", () => {

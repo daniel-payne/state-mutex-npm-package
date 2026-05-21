@@ -1,6 +1,6 @@
 {
   "name": "@keldan-systems/state-mutex",
-  "version": "0.0.35",
+  "version": "0.0.36",
   "description": "Simple State Management for react",
   "type": "module",
   "exports": {
@@ -79,5 +79,10 @@
   "prettier": {
     "semi": false,
     "printWidth": 160
+  },
+  "jest": {
+    "moduleNameMapper": {
+      "^(\\.{1,2}/.*)\\.js$": "$1"
+    }
   }
 }

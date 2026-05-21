@@ -1,7 +1,7 @@
 import { act } from "react"
 import { renderHook } from "@testing-library/react"
 
-import { useSharedMessage } from "../../lib/esm/hooks/useSharedMessage"
+import { useSharedMessage } from "./useSharedMessage"
 
 describe("useSharedMessage", () => {
   it("have three access functions", () => {

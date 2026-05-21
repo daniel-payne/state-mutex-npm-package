@@ -26,6 +26,7 @@ export enum StoragePersistence {
   query = "Q",
   hash = "H",
   local = "L",
+  session = "S",
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -41,6 +42,7 @@ let listeners: Array<{ key?: StoreKey | undefined; reference: WeakRef<ListnerAct
 const defaultQueries = new Map<StoreKey, StorageValue>()
 const defaultHashes = new Map<StoreKey, StorageValue>()
 const defaultLocals = new Map<StoreKey, StorageValue>()
+const defaultSessions = new Map<StoreKey, StorageValue>()
 
 const initialQueries = new Map<StoreKey, StorageValue>()
 const initialHashes = new Map<StoreKey, StorageValue>()
@@ -57,6 +59,10 @@ const isLocalKey = (key: StoreKey): boolean => {
   return defaultLocals.has(key)
 }
 
+const isSessionKey = (key: StoreKey): boolean => {
+  return defaultSessions.has(key)
+}
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Loading Initialization
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -66,6 +72,7 @@ export function currentStore() {
     defaultQueries: Object.fromEntries(defaultQueries),
     defaultHashes: Object.fromEntries(defaultHashes),
     defaultLocals: Object.fromEntries(defaultLocals),
+    defaultSessions: Object.fromEntries(defaultSessions),
     initialQueries: Object.fromEntries(initialQueries),
     initialHashes: Object.fromEntries(initialHashes),
   } as StorageValue
@@ -86,6 +93,10 @@ export function clearStore() {
     localStorage.clear()
   }
 
+  if (typeof sessionStorage !== "undefined") {
+    sessionStorage.clear()
+  }
+
   defaultQueries.forEach((defaultValue: StorageValue, key: string) => {
     updateValues(key, defaultValue)
   })
@@ -95,6 +106,10 @@ export function clearStore() {
   })
 
   defaultLocals.forEach((defaultValue: StorageValue, key: string) => {
+    updateValues(key, defaultValue)
+  })
+
+  defaultSessions.forEach((defaultValue: StorageValue, key: string) => {
     updateValues(key, defaultValue)
   })
 
@@ -109,6 +124,7 @@ export function clearStore() {
           defaultQueries: Object.fromEntries(defaultQueries),
           defaultHashes: Object.fromEntries(defaultHashes),
           defaultLocals: Object.fromEntries(defaultLocals),
+          defaultSessions: Object.fromEntries(defaultSessions),
           initialQueries: Object.fromEntries(initialQueries),
           initialHashes: Object.fromEntries(initialHashes),
         } as StorageValue)
@@ -134,6 +150,8 @@ export function initializeStore(key: StoreKey, defaultValue: StorageValue, persi
     defaultQueries.set(key, defaultValue)
   } else if (persistence === StoragePersistence.local && isLocalKey(key) === false) {
     defaultLocals.set(key, defaultValue)
+  } else if (persistence === StoragePersistence.session && isSessionKey(key) === false) {
+    defaultSessions.set(key, defaultValue)
   }
 
   if (values.has(key) === false) {
@@ -152,6 +170,9 @@ export function updateStore(key: StoreKey, value: StorageValue) {
   }
   if (isLocalKey(key)) {
     StoreLocal(key, value)
+  }
+  if (isSessionKey(key)) {
+    StoreSession(key, value)
   }
 }
 
@@ -232,6 +253,7 @@ function updateValues(key: StoreKey, value: StorageValue) {
           defaultQueries: Object.fromEntries(defaultQueries),
           defaultHashes: Object.fromEntries(defaultHashes),
           defaultLocals: Object.fromEntries(defaultLocals),
+          defaultSessions: Object.fromEntries(defaultSessions),
           initialQueries: Object.fromEntries(initialQueries),
           initialHashes: Object.fromEntries(initialHashes),
         } as StorageValue)
@@ -390,9 +412,9 @@ if (typeof window !== "undefined" && typeof document !== "undefined") {
 
 const StoreLocal = (key: string, value: StorageValue) => {
   if (typeof localStorage !== "undefined") {
-    if (localStorage.getItem(key) !== value?.toString()) {
-      const stringValue = storageToString(value)
+    const stringValue = storageToString(value)
 
+    if (localStorage.getItem(key) !== stringValue) {
       if (value == null || stringValue == null) {
         localStorage.removeItem(key)
       } else {
@@ -403,12 +425,14 @@ const StoreLocal = (key: string, value: StorageValue) => {
 }
 
 const loadLocal = (e: StorageEvent) => {
-  const key = e.key
+  if (!e.storageArea || e.storageArea === localStorage) {
+    const key = e.key
 
-  if (key != null) {
-    const newValue = stringToStorage(e.newValue)
+    if (key != null) {
+      const newValue = stringToStorage(e.newValue)
 
-    updateValues(key, newValue)
+      updateValues(key, newValue)
+    }
   }
 }
 
@@ -420,5 +444,46 @@ if (typeof window !== "undefined" && typeof document !== "undefined" && typeof l
     const newValue = stringToStorage(newString)
 
     initializeStore(key, newValue, StoragePersistence.local)
+  }
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Session Persistence
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+const StoreSession = (key: string, value: StorageValue) => {
+  if (typeof sessionStorage !== "undefined") {
+    const stringValue = storageToString(value)
+
+    if (sessionStorage.getItem(key) !== stringValue) {
+      if (value == null || stringValue == null) {
+        sessionStorage.removeItem(key)
+      } else {
+        sessionStorage.setItem(key, stringValue)
+      }
+    }
+  }
+}
+
+const loadSession = (e: StorageEvent) => {
+  if (e.storageArea === sessionStorage) {
+    const key = e.key
+
+    if (key != null) {
+      const newValue = stringToStorage(e.newValue)
+
+      updateValues(key, newValue)
+    }
+  }
+}
+
+if (typeof window !== "undefined" && typeof document !== "undefined" && typeof sessionStorage !== "undefined") {
+  window.addEventListener("storage", loadSession, true)
+
+  for (let key in sessionStorage) {
+    const newString = sessionStorage.getItem(key)
+    const newValue = stringToStorage(newString)
+
+    initializeStore(key, newValue, StoragePersistence.session)
   }
 }

@@ -1,9 +1,9 @@
-export default function safeStringify(input: any, indent:number = 0) {
+export default function safeStringify(input: any, indent: number = 0): string | undefined {
   if (typeof input === "string" || input instanceof String) {
-    return input
+    return input.toString()
   }
 
-  if (!isNaN(input)) {
+  if (typeof input === "number" && !isNaN(input)) {
     return input.toString()
   }
 

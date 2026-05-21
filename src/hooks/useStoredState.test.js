@@ -1,7 +1,7 @@
 import { act } from "react"
 import { renderHook } from "@testing-library/react"
 
-import { useStoredState } from "../../lib/esm/hooks/useStoredState"
+import { useStoredState } from "./useStoredState"
 
 const VALUE = 0
 const SET = 1

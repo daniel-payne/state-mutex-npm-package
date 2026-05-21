@@ -1,7 +1,7 @@
 import { act } from "react"
 import { renderHook } from "@testing-library/react"
 
-import { useLocalState } from "../../lib/esm/hooks/useLocalState"
+import { useLocalState } from "./useLocalState"
 
 const VALUE = 0
 const SET = 1

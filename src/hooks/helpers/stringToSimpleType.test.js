@@ -1,4 +1,4 @@
-import stringToSimpleType from "../../../lib/esm/hooks/helpers/stringToSimpleType"
+import stringToSimpleType from "./stringToSimpleType"
 
 describe("stringToSimpleType", () => {
   it("should be there", () => {

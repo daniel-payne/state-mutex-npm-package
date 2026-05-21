@@ -1,7 +1,7 @@
 import { act } from "react"
 import { renderHook } from "@testing-library/react"
 
-import { useSharedBroadcast } from "../../lib/esm/hooks/useSharedBroadcast"
+import { useSharedBroadcast } from "./useSharedBroadcast"
 
 describe("useSharedState", () => {
   it("have three access functions", () => {

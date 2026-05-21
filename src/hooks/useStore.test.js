@@ -1,43 +1,39 @@
 import { act } from "react"
 import { renderHook } from "@testing-library/react"
 
-import { useStoredState } from "../../lib/esm/hooks/useStoredState"
-import { useStore } from "../../lib/esm/hooks/useStore"
+import { useStore } from "./useStore"
+import { useStoredState } from "./useStoredState"
+import { clearStore } from "./helpers/stateStore"
 
-const VALUE = 0
-const SET = 1
-
-describe("useStoredState", () => {
-  it("have a default value", () => {
-    const { result: hook } = renderHook(() => useStoredState("TEST-1", 1))
-
-    expect(hook.current[VALUE]).toBe(1)
+describe("useStore", () => {
+  beforeEach(() => {
+    clearStore()
   })
 
-  it("be updatable", () => {
-    const { result: hook } = renderHook(() => useStoredState("TEST-2", 1))
+  it("should track values in the global store", () => {
+    const { result: stateHook } = renderHook(() => useStoredState("store_test_key", "initial_val"))
+    const { result: storeHook } = renderHook(() => useStore())
 
-    expect(hook.current[VALUE]).toBe(1)
+    expect(storeHook.current.store.values["store_test_key"]).toBe("initial_val")
 
     act(() => {
-      hook.current[SET](2)
+      stateHook.current[1]("updated_val")
     })
 
-    expect(hook.current[VALUE]).toBe(2)
+    expect(storeHook.current.store.values["store_test_key"]).toBe("updated_val")
   })
 
-  it("be shared updatable", () => {
-    const { result: hook1 } = renderHook(() => useStoredState("TEST-3", 1))
-    const { result: hook2 } = renderHook(() => useStoredState("TEST-3", 1))
+  it("should clear the store when actions.clearStore is called", () => {
+    const { result: stateHook } = renderHook(() => useStoredState("store_test_key_2", "initial_val_2"))
+    const { result: storeHook } = renderHook(() => useStore())
 
-    expect(hook1.current[VALUE]).toBe(1)
-    expect(hook2.current[VALUE]).toBe(1)
+    expect(storeHook.current.store.values["store_test_key_2"]).toBe("initial_val_2")
 
     act(() => {
-      hook1.current[SET](3)
+      storeHook.current.actions.clearStore()
     })
 
-    expect(hook1.current[VALUE]).toBe(3)
-    expect(hook2.current[VALUE]).toBe(3)
+    // Once cleared, values should be empty or reset to defaults
+    expect(storeHook.current.store.values["store_test_key_2"]).toBeUndefined()
   })
 })

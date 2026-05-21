@@ -1,4 +1,4 @@
-import isArray from "../../../lib/esm/hooks/helpers/isArray"
+import isArray from "./isArray"
 
 describe("isArray", () => {
   it("should be there", () => {

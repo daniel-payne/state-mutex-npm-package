@@ -3,6 +3,7 @@ export { useQueryState } from "./hooks/useQueryState.js"
 export { useHashState } from "./hooks/useHashState.js"
 export { useDataState } from "./hooks/useDataState.js"
 export { useLocalState } from "./hooks/useLocalState.js"
+export { useSessionStorage } from "./hooks/useSessionStorage.js"
 
 export { useSharedMessage } from "./hooks/useSharedMessage.js"
 export { useSharedBroadcast } from "./hooks/useSharedBroadcast.js"

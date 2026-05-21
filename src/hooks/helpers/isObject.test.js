@@ -1,4 +1,4 @@
-import isObject from "../../../lib/esm/hooks/helpers/isObject"
+import isObject from "./isObject"
 
 describe("isObject", () => {
   it("should be there", () => {

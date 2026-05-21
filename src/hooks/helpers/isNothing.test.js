@@ -1,4 +1,4 @@
-import isNothing from "../../../lib/esm/hooks/helpers/isNothing"
+import isNothing from "./isNothing"
 
 describe("isNothing", () => {
   it("should be there", () => {

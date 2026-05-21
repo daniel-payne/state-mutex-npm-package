@@ -11,23 +11,29 @@ type Message = {
   data: any
 }
 
-export function useSharedBroadcast<T extends StorageValue>(key: string): any {
+export function useSharedBroadcast<T extends StorageValue>(key: string): {
+  publish: (value: T) => void
+  subscribe: (call: (data: T) => any) => void
+  unsubscribe: (call: (data: T) => any) => void
+} {
   const timestampRef = useRef<number | undefined>()
-  const action = useRef<Action | undefined>()
+  const action = useRef<((data: T) => any) | undefined>()
 
   const [message, setMessage] = useLocalState<Message | undefined>(key)
 
   ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-  const subscribe = useCallback((call: Action) => {
+  const subscribe = useCallback((call: (data: T) => any) => {
     action.current = call
   }, [])
   ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-  const unsubscribe = useCallback((call: Action) => {
-    action.current = undefined
+  const unsubscribe = useCallback((call: (data: T) => any) => {
+    if (action.current === call) {
+      action.current = undefined
+    }
   }, [])
   ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   const publish = useCallback(
-    (value: any) => {
+    (value: T) => {
       timestampRef.current = Date.now()
 
       setMessage({

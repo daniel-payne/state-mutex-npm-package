@@ -26,9 +26,7 @@ export function useStoredState<T extends StorageValue>(key: string, defaultValue
     return () => {
       unsubscribe(updater)
     }
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [setValue])
+  }, [key, defaultValue, persistence])
 
   // Update Shared ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   const sharedUpdate = useCallback(

@@ -1,4 +1,4 @@
-import isNumeric from "../../../lib/esm/hooks/helpers/isNumeric"
+import isNumeric from "./isNumeric"
 
 describe("isNumeric", () => {
   it("should be there", () => {

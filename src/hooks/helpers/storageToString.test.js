@@ -1,4 +1,4 @@
-import storageToString from "../../../lib/esm/hooks/helpers/storageToString"
+import storageToString from "./storageToString"
 
 describe("storageToString", () => {
   it("should not pass empty information", () => {

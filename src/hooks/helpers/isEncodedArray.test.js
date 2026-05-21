@@ -1,4 +1,4 @@
-import isEncodedArray from "../../../lib/esm/hooks/helpers/isEncodedArray"
+import isEncodedArray from "./isEncodedArray"
 
 describe("isEncodedArray", () => {
   it("should be there", () => {

@@ -1,4 +1,4 @@
-import isEncodedObject from "../../../lib/esm/hooks/helpers/isEncodedObject"
+import isEncodedObject from "./isEncodedObject"
 
 describe("isEncodedObject", () => {
   it("should be there", () => {

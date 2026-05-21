@@ -1,4 +1,4 @@
-import isEncodedString from "../../../lib/esm/hooks/helpers/isEncodedString"
+import isEncodedString from "./isEncodedString"
 
 describe("isEncodedString", () => {
   it("should be there", () => {

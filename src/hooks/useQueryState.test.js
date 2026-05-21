@@ -1,7 +1,7 @@
 import { act } from "react"
 import { renderHook } from "@testing-library/react"
 
-import { useQueryState } from "../../lib/esm/hooks/useQueryState"
+import { useQueryState } from "./useQueryState"
 
 const VALUE = 0
 const SET = 1

@@ -1,7 +1,7 @@
 import { act } from "react"
 import { renderHook } from "@testing-library/react"
 
-import { useHashState } from "../../lib/esm/hooks/useHashState"
+import { useHashState } from "./useHashState"
 
 const VALUE = 0
 const SET = 1

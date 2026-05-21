@@ -1,4 +1,4 @@
-import safeStringify from "../../../lib/esm/hooks/helpers/safeStringify"
+import safeStringify from "./safeStringify"
 
 describe("safeStringify", () => {
   it("should be there", () => {
