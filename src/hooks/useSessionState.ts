@@ -6,7 +6,7 @@ import type { Dispatch } from "react"
 
 import type { StorageValue } from "./helpers/stateStore.js"
 
-export function useSessionStorage<T extends StorageValue>(key: string, defaultValue?: T): [T, Dispatch<T>] {
+export function useSessionState<T extends StorageValue>(key: string, defaultValue?: T): [T, Dispatch<T>] {
   const defaultVal = defaultValue ?? (undefined as T)
 
   const [value, setValue] = useStoredState<T>(key, defaultVal, StoragePersistence.session)

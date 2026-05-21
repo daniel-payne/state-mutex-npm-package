@@ -127,6 +127,9 @@ In addition to sharing the state across all components, this hook coordinates th
 
 This hook is designed to be used in applications where the logic is spread across multiple browser tabs, and is a good control and command system that does away with the need for coordinating web sockets.
 
+**IMPORTANT**
+Session storage does not work across tabs.
+
 ```typescript
 import { useSessionState } from "@keldan-systems/state-mutex"
 
